@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    url: jdbc:mysql://database-1.cjthi4jbxnim.ap-northeast-2.rds.amazonaws.com/myapp?useUnicode=true&characterEncoding=utf-8
+    username: admin
+    password: password123!
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    show-sql: true
+    generate-ddl: true #테이블 생성, 컬럼 생성...
