@@ -116,25 +116,34 @@ public class TodoController {
 	@PutMapping(value = "/todos/{id}")
 	public Todo modifyTodo(@PathVariable int id, @RequestBody Todo todo, HttpServletResponse res) {
 
-		// 특정 필드만 업데이트 해야함
+		// 데이터를 수정할 때는 특정 필드만 업데이트 해야함
 		// ex) 이전에 입력한 시스템 필드는 변경하면 안 됨.
 
-		// 기존데이터 조회 후 변경된 데이터만 설정한 다음에 save
+		// repository.save(entity)
+		// id값 제외하고 전체 필드를 업데이트함
 
+		/* -- 기존데이터 조회 후 변경된 데이터만 설정한 다음에 save --- */
+
+		// 1. 기존 데이터 조회
 		Optional<Todo> findedTodo = repo.findById(id);
 
-		// 리소스가 없으면 404 에러를 띄워줌
+		// 2. (요청데이터 검증1) id에 해당하는 리소스가 없으면 404 에러를 띄워줌
 		if (findedTodo.isEmpty()) {
 			res.setStatus(HttpServletResponse.SC_NOT_FOUND);
 			return null;
 		}
 
-		// 조회한 데이터에서 변경할 필드만 수정
-		Todo toUpdateTodo = findedTodo.get(); // 기존 데이터
-		toUpdateTodo.setMemo(todo.getMemo()); // 변경할 필드
+		// 3. (요청데이터 검증2) memo 필드가 빈값이면 400에러를 띄워줌
+		if (todo.getMemo() == null && todo.getMemo().equals("")) {
+			res.setStatus(HttpServletResponse.SC_BAD_GATEWAY);
+			return null;
+		}
 
-		// repository.save(entity)
-		// id값 제외하고 전체 필드를 업데이트함
+		// 4. 데이터베이스에서 읽어온 기존 데이터에 변경할 필드만 수정함
+		Todo toUpdateTodo = findedTodo.get();
+		toUpdateTodo.setMemo(todo.getMemo());
+
+		// 5. 레코드 update
 		return repo.save(toUpdateTodo);
 	}
 }
