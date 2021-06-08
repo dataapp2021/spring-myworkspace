@@ -135,7 +135,7 @@ public class TodoController {
 
 		// 3. (요청데이터 검증2) memo 필드가 빈값이면 400에러를 띄워줌
 		if (todo.getMemo() == null && todo.getMemo().equals("")) {
-			res.setStatus(HttpServletResponse.SC_BAD_GATEWAY);
+			res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			return null;
 		}
 
