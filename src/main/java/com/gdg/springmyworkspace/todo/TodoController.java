@@ -7,6 +7,9 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -47,7 +51,55 @@ public class TodoController {
 //		List<Todo> todoList = repo.findAll();
 //		return todoList;
 
-		return repo.findAll();
+//		return repo.findAll();
+//		SELECT * FROM todo ORDER BY id DESC; -- 역순(descending) 정렬
+		return repo.findAll(Sort.by("id").descending());
+
+	}
+
+	// ?key=value&key=value <- 매개변수를 Query String(질의 문자열)
+	// HTTP GET 메서드로 데이터를 조회할 때 매개변수를 넘기는 방법
+	// Spring에서는 @RequestParam 어노테이션으로 해당 매개변수를 받는다.
+
+	// page: 몇번째 페이지인지, size: 페이지당 몇건의 데이터인지
+	// GET /todos/paging?page=0&size=10
+	// GET /todos/paging?page=1&size=10
+	@GetMapping(value = "/todos/paging")
+	public Page<Todo> getTodoListPaging(@RequestParam int page, @RequestParam int size) {
+
+		/* 0번째 페이지 */
+//		-- LIMIT 개수
+//		-- 앞에서 개수만큼의 레코드만 조회함
+//		select * from todo order by id desc;
+//		select * from todo order by id desc LIMIT 10;		
+
+		/* 0번째 페이지 이후부터 JPA에서 처리하는 방법 */
+//		-- LIMIT 건너띄기할 개수, 조회 개수
+//		-- LIMIT 10, 10
+//		-- page: 1, size: 10
+//		select * from todo order by id desc LIMIT 10, 10;				
+//		-- LIMIT 20, 10
+//		-- page: 2, size: 10
+//		select * from todo order by id desc LIMIT 20, 10;		
+
+		/* 0번째 페이지 이후부터 OFFSET으로 처리하는 방법 */
+//		-- LIMIT 조회 개수 OFFSET 건너띄기할 개수
+//		-- LIMIT 10 OFFSET 10: 10개 건너띄고 다음 10개 조회
+//		-- page: 1, size: 10
+//		select * from todo order by id desc LIMIT 10 OFFSET 10;				
+//		-- LIMIT 10 OFFSET 20: 20개 건너띄고 다음 10개 조회
+//		-- page: 2, size: 10
+//		select * from todo order by id desc LIMIT 10 OFFSET 20;		
+
+		/* 전체건수 조회 */
+//		-- COUNT(컬럼)
+//		-- 컬럼에는 clustered index 컬럼이 아니면 성능이 떨어짐
+//		-- 잘모르면 *를 써라, MySQL에서 알아서 최적화된 방법으로 조회함.
+//		-- 전체 레코드 개수를 조회
+//		select count(id) from todo;
+//		select count(*) from todo;		
+
+		return repo.findAll(PageRequest.of(page, size, Sort.by("id").descending()));
 	}
 
 	// 1건 추가
