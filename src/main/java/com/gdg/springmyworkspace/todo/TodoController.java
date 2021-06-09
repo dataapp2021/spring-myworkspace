@@ -102,6 +102,12 @@ public class TodoController {
 		return repo.findAll(PageRequest.of(page, size, Sort.by("id").descending()));
 	}
 
+	@GetMapping(value = "/todos/search")
+	public Page<Todo> getTodoListSearch(@RequestParam int page, @RequestParam int size, @RequestParam String keyword) {
+//		return repo.findByMemo(PageRequest.of(page, size, Sort.by("id").descending()), keyword);
+		return repo.findByMemoContaining(PageRequest.of(page, size, Sort.by("id").descending()), keyword);
+	}
+
 	// 1건 추가
 	// POST /todos {memo:"Spring 공부하기"}
 	@PostMapping(value = "/todos")

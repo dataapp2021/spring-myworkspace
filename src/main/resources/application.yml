@@ -8,3 +8,5 @@ spring:
   jpa:
     show-sql: true
     generate-ddl: true #테이블 생성, 컬럼 생성...
+    properties:      hibernate:
+        generate_statistics: true
