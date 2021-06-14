@@ -16,8 +16,10 @@ public interface TodoRepository extends JpaRepository<Todo, Integer> {
 	// https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.query-methods.query-creation
 
 	// SELECT * FROM todo WHERE memo = '매개변수'
+	// SELECT COUNT(id) FROM todo
 	Page<Todo> findByMemo(Pageable page, String memo);
 
 	// SELECT * FROM todo WHERE memo LIKE '%매개변수%';
+	// SELECT COUNT(id) FROM todo
 	Page<Todo> findByMemoContaining(Pageable page, String memo);
 }
