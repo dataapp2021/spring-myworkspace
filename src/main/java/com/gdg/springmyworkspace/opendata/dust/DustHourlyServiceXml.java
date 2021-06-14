@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import com.google.gson.Gson;
+
 @Service
 public class DustHourlyServiceXml {
 	DustHourlyRepository repo;
@@ -70,12 +72,12 @@ public class DustHourlyServiceXml {
 		// 4. String(JSON) -> Object로 변환을 해야함
 		// 구조가 있는 형식(Class로 찍어낸 Object)으로 변환해야 사용할 수 있음
 		// fromJson(JSON문자열, 변환할타입)
-//		DustHourlyResponseXml response = new Gson().fromJson(jObject.toString(), DustHourlyResponseXml.class);
-//		System.out.println(response);
-//
-//		// 5. 응답객체를 Entity 객체로 변환하여 저장
-//		for (DustHourlyResponseXml.Item item : response.getResponse().getBody().getItems().getItem()) {
-//			repo.save(new DustHourly(item));
-//		}
+		DustHourlyResponseXml response = new Gson().fromJson(jObject.toString(), DustHourlyResponseXml.class);
+		System.out.println(response);
+
+		// 5. 응답객체를 Entity 객체로 변환하여 저장
+		for (DustHourlyResponseXml.Item item : response.getResponse().getBody().getItems().getItem()) {
+			repo.save(new DustHourly(item));
+		}
 	}
 }
