@@ -33,8 +33,8 @@ public class DustHourlyService {
 	public void requestDustHourlyData() throws IOException {
 		System.out.println(new Date().toLocaleString() + "--실행--");
 		//
-//		getDustHourlyData("PM10"); // 미세
-//		getDustHourlyData("PM25"); // 초미세
+		getDustHourlyData("PM10"); // 미세
+		getDustHourlyData("PM25"); // 초미세
 	}
 
 	// 데이터를 요청하는 메서드

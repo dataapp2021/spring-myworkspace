@@ -3,12 +3,10 @@ package com.gdg.springmyworkspace.opendata.dust;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Date;
 
 import org.json.JSONObject;
 import org.json.XML;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.google.gson.Gson;
@@ -28,15 +26,15 @@ public class DustHourlyServiceXml {
 	// 0초 30분 매시 매일 매월 매년
 //	@Scheduled(cron = "0 30 * * * *") // 매시 30분에 수집, 원래의 요구사항
 
-	@SuppressWarnings("deprecation")
-	// 고정 비율, ms(milli second 단위), 1000 == 1초
-	@Scheduled(fixedRate = 1000 * 60 * 30) // 30분마다, 테스트용 스케줄, 프로그램이 시작될 때 한번은 바로 실행됨
-	public void requestDustHourlyData() throws IOException {
-		System.out.println(new Date().toLocaleString() + "--실행--");
-		//
-		getDustHourlyData("PM10"); // 미세
-		getDustHourlyData("PM25"); // 초미세
-	}
+//	@SuppressWarnings("deprecation")
+//	// 고정 비율, ms(milli second 단위), 1000 == 1초
+//	@Scheduled(fixedRate = 1000 * 60 * 30) // 30분마다, 테스트용 스케줄, 프로그램이 시작될 때 한번은 바로 실행됨
+//	public void requestDustHourlyData() throws IOException {
+//		System.out.println(new Date().toLocaleString() + "--실행--");
+//		//
+//		getDustHourlyData("PM10"); // 미세
+//		getDustHourlyData("PM25"); // 초미세
+//	}
 
 	// 데이터를 요청하는 메서드
 	private void getDustHourlyData(String itemCode) throws IOException {
