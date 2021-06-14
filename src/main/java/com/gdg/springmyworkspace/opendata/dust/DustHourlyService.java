@@ -5,11 +5,21 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Date;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import com.google.gson.Gson;
+
 @Service
 public class DustHourlyService {
+
+	DustHourlyRepository repo;
+
+	@Autowired
+	public DustHourlyService(DustHourlyRepository repo) {
+		this.repo = repo;
+	}
 
 	// 스케줄을 실행하는 메서드
 	// cron tab 시간 형식
@@ -48,10 +58,21 @@ public class DustHourlyService {
 		// 1. URL 주소로 접속 및 데이터 읽기
 		URL url = new URL(builder.toString()); // 문자열로부터 URL 객체 생성
 		HttpURLConnection con = (HttpURLConnection) url.openConnection(); // URL 주소에 접속을 함
-		byte[] result = con.getInputStream().readAllBytes();
+		byte[] result = con.getInputStream().readAllBytes(); // 본문(body)데이터를 바이트 단위로 읽어들임
 
 		// 2. byte[] -> String(JSON)으로 변환
 		String data = new String(result);
 		System.out.println(data);
+
+		// 3. String(JSON) -> Object로 변환을 해야함
+		// 구조가 있는 형식(Class로 찍어낸 Object)으로 변환해야 사용할 수 있음
+		// fromJson(JSON문자열, 변환할타입)
+		DustHourlyResponse response = new Gson().fromJson(data, DustHourlyResponse.class);
+		System.out.println(response);
+
+		// 4. 응답객체를 Entity 객체로 변환하여 저장
+		for (DustHourlyResponse.Item item : response.getResponse().getBody().getItems()) {
+			repo.save(new DustHourly(item));
+		}
 	}
 }
