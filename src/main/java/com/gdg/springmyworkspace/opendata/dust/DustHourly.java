@@ -12,6 +12,8 @@ import lombok.NoArgsConstructor;
 @Entity
 @IdClass(DustHourlyId.class)
 public class DustHourly {
+	// 사람이 데이터를 정보를 보는 관점은 시공간의 축 위에서 본다. 4차원
+	// 시간, 지역, 구분..., 값
 
 	// dataTime + itemCode 두개를 합치면 유일값 및 대표값이 됨 -> PK, Id(Identifier)
 	// DB -> 합성키(Composite Key): 여러개의 컬럼을 합쳐서 Primary Key로 사용함

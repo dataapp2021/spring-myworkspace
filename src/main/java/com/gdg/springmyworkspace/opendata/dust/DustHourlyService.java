@@ -60,8 +60,8 @@ public class DustHourlyService {
 		HttpURLConnection con = (HttpURLConnection) url.openConnection(); // URL 주소에 접속을 함
 		byte[] result = con.getInputStream().readAllBytes(); // 본문(body)데이터를 바이트 단위로 읽어들임
 
-		// 2. byte[] -> String(JSON)으로 변환
-		String data = new String(result);
+		// 2. byte[] -> String(JSON), UTF-8으로 변환
+		String data = new String(result, "UTF-8");
 		System.out.println(data);
 
 		// 3. String(JSON) -> Object로 변환을 해야함
