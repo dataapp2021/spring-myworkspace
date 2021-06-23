@@ -2,14 +2,16 @@ package com.gdg.springmyworkspace;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-// @³»¿ë: Annotation(¾î³ëÅ×ÀÌ¼Ç, ¾Ö³ëÅ×ÀÌ¼Ç)
-// Å¬·¡½º³ª, ÇÊµå, ¸Þ¼­µå¿¡ ºÙÀÏ ¼ö ÀÖÀ½.
-// ¾î³ëÅ×ÀÌ¼ÇÀÌ ºÙ¾î ÀÖ´Â ÄÚµå¸¦ Æ¯Á¤ ±â´ÉÀ¸·Î ÀÚµ¿È­ ÇÏ±â À§ÇÑ ±â¹ý
+// @ï¿½ï¿½ï¿½ï¿½: Annotation(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì¼ï¿½, ï¿½Ö³ï¿½ï¿½ï¿½ï¿½Ì¼ï¿½)
+// Å¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½Êµï¿½, ï¿½Þ¼ï¿½ï¿½å¿¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì¼ï¿½ï¿½ï¿½ ï¿½Ù¾ï¿½ ï¿½Ö´ï¿½ ï¿½Úµå¸¦ Æ¯ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½È­ ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 
-// @Scheduled ¾î³ëÅ×ÀÌ¼ÇÀ¸·Î ¸Þ¼­µå¸¦ ½ÇÇØÇÏ·Á¸é ÇÊ¿äÇÔ
+// @Scheduled ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì¼ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¼ï¿½ï¿½å¸¦ ï¿½ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½ï¿½
 @EnableScheduling
+@EnableCaching
 @SpringBootApplication
 public class SpringMyworkspaceApplication {
 

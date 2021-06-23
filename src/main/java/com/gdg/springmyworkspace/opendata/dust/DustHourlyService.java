@@ -6,6 +6,7 @@ import java.net.URL;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -21,56 +22,57 @@ public class DustHourlyService {
 		this.repo = repo;
 	}
 
-	// ½ºÄÉÁÙÀ» ½ÇÇàÇÏ´Â ¸Þ¼­µå
-	// cron tab ½Ã°£ Çü½Ä
-	// ÃÊ ºÐ ½Ã ÀÏ ¿ù ³â
-	// 0ÃÊ 30ºÐ ¸Å½Ã ¸ÅÀÏ ¸Å¿ù ¸Å³â
-//	@Scheduled(cron = "0 30 * * * *") // ¸Å½Ã 30ºÐ¿¡ ¼öÁý, ¿ø·¡ÀÇ ¿ä±¸»çÇ×
-
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½
+	// cron tab ï¿½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½
+	// ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½
+	// 0ï¿½ï¿½ 30ï¿½ï¿½ ï¿½Å½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Å¿ï¿½ ï¿½Å³ï¿½
+	@Scheduled(cron = "0 30 * * * *") // ï¿½Å½ï¿½ 30ï¿½Ð¿ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ä±¸ï¿½ï¿½ï¿½ï¿½
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ms(milli second ï¿½ï¿½ï¿½ï¿½), 1000 == 1ï¿½ï¿½
+//	@Scheduled(fixedRate = 1000 * 60 * 30) // 30ï¿½Ð¸ï¿½ï¿½ï¿½, ï¿½×½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½Î±×·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ûµï¿½ ï¿½ï¿½ ï¿½Ñ¹ï¿½ï¿½ï¿½ ï¿½Ù·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
+//	@Scheduled(fixedRate = 1000 * 30)
+	@CacheEvict(value = "dust-hourly", key = "0") // ë°ì´í„° ë°›ì•„ì˜¤ëŠ” í•¨ìˆ˜ë¥¼ ì‹¤í–‰í•  ë•Œ í•´ë‹¹ keyë¥¼ ì‚­ì œí•¨
 	@SuppressWarnings("deprecation")
-	// °íÁ¤ ºñÀ², ms(milli second ´ÜÀ§), 1000 == 1ÃÊ
-	@Scheduled(fixedRate = 1000 * 60 * 30) // 30ºÐ¸¶´Ù, Å×½ºÆ®¿ë ½ºÄÉÁÙ, ÇÁ·Î±×·¥ÀÌ ½ÃÀÛµÉ ¶§ ÇÑ¹øÀº ¹Ù·Î ½ÇÇàµÊ
 	public void requestDustHourlyData() throws IOException {
-		System.out.println(new Date().toLocaleString() + "--½ÇÇà--");
+		System.out.println(new Date().toLocaleString() + "--ï¿½ï¿½ï¿½ï¿½--");
 		//
-		getDustHourlyData("PM10"); // ¹Ì¼¼
-		getDustHourlyData("PM25"); // ÃÊ¹Ì¼¼
+		getDustHourlyData("PM10"); // ï¿½Ì¼ï¿½
+		getDustHourlyData("PM25"); // ï¿½Ê¹Ì¼ï¿½
 	}
 
-	// µ¥ÀÌÅÍ¸¦ ¿äÃ»ÇÏ´Â ¸Þ¼­µå
+	// ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½Ã»ï¿½Ï´ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½
 	private void getDustHourlyData(String itemCode) throws IOException {
 		String serviceKey = "ZXrForMW%2B7bGoyCLwU%2FoTqGRJz4mccLh917X2fFkUON44o4IiAodDEE%2BlGI1TTRh1U2FrZeLWWWtzkckwV7Mcg%3D%3D";
 
-		// µ¥ÀÌÅÍ ¿äÃ» URLÀ» ¸¸µé¾î¾ß ÇÔ
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã» URLï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 		StringBuilder builder = new StringBuilder();
-		builder.append("http://apis.data.go.kr/B552584/ArpltnStatsSvc"); // ¼­ºñ½º ÁÖ¼Ò
-		builder.append("/getCtprvnMesureLIst"); // »ó¼¼ ±â´É ÁÖ¼Ò
-		builder.append("?itemCode=" + itemCode); // ¾ÆÀÌÅÛ ÄÚµå(PM10, PM25)
-		builder.append("&dataGubun=HOUR"); // ½Ã°£´ÜÀ§ Á¶È¸(HOUR)
-		builder.append("&pageNo=1"); // ÇöÀçºÎÅÍ °¡±î¿î ½Ã°£ÀÇ ÆäÀÌÁö¸¸ Á¶È¸(1ÆäÀÌÁö)
-		builder.append("&numOfRows=24"); // ÇöÀçºÎÅÍ 24½Ã°£ÀÇ µ¥ÀÌÅÍ Á¶È¸
-		builder.append("&returnType=json"); // ÀÀ´ä µ¥ÀÌÅÍÇü½ÄÀ¸·Î JSONÀ¸·Î ¹ÞÀ½
+		builder.append("http://apis.data.go.kr/B552584/ArpltnStatsSvc"); // ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¼ï¿½
+		builder.append("/getCtprvnMesureLIst"); // ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ö¼ï¿½
+		builder.append("?itemCode=" + itemCode); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½(PM10, PM25)
+		builder.append("&dataGubun=HOUR"); // ï¿½Ã°ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¸(HOUR)
+		builder.append("&pageNo=1"); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¸(1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
+		builder.append("&numOfRows=24"); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 24ï¿½Ã°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¸
+		builder.append("&returnType=json"); // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ JSONï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		builder.append("&serviceKey=" + serviceKey);
 
-		// 0. ¿äÃ» URL È®ÀÎ
+		// 0. ï¿½ï¿½Ã» URL È®ï¿½ï¿½
 		System.out.println(builder.toString());
 
-		// 1. URL ÁÖ¼Ò·Î Á¢¼Ó ¹× µ¥ÀÌÅÍ ÀÐ±â
-		URL url = new URL(builder.toString()); // ¹®ÀÚ¿­·ÎºÎÅÍ URL °´Ã¼ »ý¼º
-		HttpURLConnection con = (HttpURLConnection) url.openConnection(); // URL ÁÖ¼Ò¿¡ Á¢¼ÓÀ» ÇÔ
-		byte[] result = con.getInputStream().readAllBytes(); // º»¹®(body)µ¥ÀÌÅÍ¸¦ ¹ÙÀÌÆ® ´ÜÀ§·Î ÀÐ¾îµéÀÓ
+		// 1. URL ï¿½Ö¼Ò·ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ð±ï¿½
+		URL url = new URL(builder.toString()); // ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½Îºï¿½ï¿½ï¿½ URL ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½
+		HttpURLConnection con = (HttpURLConnection) url.openConnection(); // URL ï¿½Ö¼Ò¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
+		byte[] result = con.getInputStream().readAllBytes(); // ï¿½ï¿½ï¿½ï¿½(body)ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ð¾ï¿½ï¿½ï¿½ï¿½
 
-		// 2. byte[] -> String(JSON), UTF-8À¸·Î º¯È¯
+		// 2. byte[] -> String(JSON), UTF-8ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯
 		String data = new String(result, "UTF-8");
 		System.out.println(data);
 
-		// 3. String(JSON) -> Object·Î º¯È¯À» ÇØ¾ßÇÔ
-		// ±¸Á¶°¡ ÀÖ´Â Çü½Ä(Class·Î Âï¾î³½ Object)À¸·Î º¯È¯ÇØ¾ß »ç¿ëÇÒ ¼ö ÀÖÀ½
-		// fromJson(JSON¹®ÀÚ¿­, º¯È¯ÇÒÅ¸ÀÔ)
+		// 3. String(JSON) -> Objectï¿½ï¿½ ï¿½ï¿½È¯ï¿½ï¿½ ï¿½Ø¾ï¿½ï¿½ï¿½
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½(Classï¿½ï¿½ ï¿½ï¿½î³½ Object)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯ï¿½Ø¾ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+		// fromJson(JSONï¿½ï¿½ï¿½Ú¿ï¿½, ï¿½ï¿½È¯ï¿½ï¿½Å¸ï¿½ï¿½)
 		DustHourlyResponse response = new Gson().fromJson(data, DustHourlyResponse.class);
 		System.out.println(response);
 
-		// 4. ÀÀ´ä°´Ã¼¸¦ Entity °´Ã¼·Î º¯È¯ÇÏ¿© ÀúÀå
+		// 4. ï¿½ï¿½ï¿½ä°´Ã¼ï¿½ï¿½ Entity ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½È¯ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½ï¿½
 		for (DustHourlyResponse.Item item : response.getResponse().getBody().getItems()) {
 			repo.save(new DustHourly(item));
 		}
