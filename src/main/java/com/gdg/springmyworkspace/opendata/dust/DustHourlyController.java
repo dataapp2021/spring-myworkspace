@@ -2,7 +2,6 @@ package com.gdg.springmyworkspace.opendata.dust;
 
 import java.util.List;
 
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
@@ -19,7 +18,6 @@ public class DustHourlyController {
 		this.repo = repo;
 	}
 
-	@Cacheable(value = "dust-hourly", key = "0")
 	@RequestMapping(value = "/opendata/dust/hourly", method = RequestMethod.GET)
 	public List<DustHourly> getListByDataType() {
 		Order[] orders = { new Order(Sort.Direction.DESC, "dataTime"), new Order(Sort.Direction.ASC, "itemCode") };

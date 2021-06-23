@@ -6,7 +6,6 @@ import java.net.URL;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -30,7 +29,6 @@ public class DustHourlyService {
 	// ���� ����, ms(milli second ����), 1000 == 1��
 //	@Scheduled(fixedRate = 1000 * 60 * 30) // 30�и���, �׽�Ʈ�� ������, ���α׷��� ���۵� �� �ѹ��� �ٷ� �����
 //	@Scheduled(fixedRate = 1000 * 30)
-	@CacheEvict(value = "dust-hourly", key = "0") // 데이터 받아오는 함수를 실행할 때 해당 key를 삭제함
 	@SuppressWarnings("deprecation")
 	public void requestDustHourlyData() throws IOException {
 		System.out.println(new Date().toLocaleString() + "--����--");

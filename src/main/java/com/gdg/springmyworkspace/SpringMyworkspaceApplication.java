@@ -2,7 +2,6 @@ package com.gdg.springmyworkspace;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 // @����: Annotation(������̼�, �ֳ����̼�)
@@ -11,7 +10,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 // @Scheduled ������̼����� �޼��带 �����Ϸ��� �ʿ���
 @EnableScheduling
-@EnableCaching
 @SpringBootApplication
 public class SpringMyworkspaceApplication {
 
