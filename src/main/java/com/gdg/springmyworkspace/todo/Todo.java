@@ -7,27 +7,28 @@ import javax.persistence.Id;
 
 import lombok.Data;
 
-// @Entity = µ¥ÀÌÅÍº£ÀÌ½ºÀÇ Å×ÀÌºí°ú ¿¬°áÇÔ(mapping)
+// @Entity = ï¿½ï¿½ï¿½ï¿½ï¿½Íºï¿½ï¿½Ì½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìºï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(mapping)
 // ORM(Object Relational Mapping)
-// : °´Ã¼¿Í Å×ÀÌºíÀ» ¸ÊÇÎÇÑ´Ù.
+// : ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½Ìºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 
-// class¿Í Å×ÀÌºíÀº pascal-case -> snake-case·Î ¸ÊÇÎ
+// classï¿½ï¿½ ï¿½ï¿½ï¿½Ìºï¿½ï¿½ï¿½ pascal-case -> snake-caseï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 // Todo class -> todo table
 // StudentInfo class -> student_info table
 
-// ÇÊµå¿Í ÄÃ·³Àº camel-case -> snake-case·Î ¸ÊÇÎ
+// ï¿½Êµï¿½ï¿½ ï¿½Ã·ï¿½ï¿½ï¿½ camel-case -> snake-caseï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 // createdTime field -> created_time column
 
-// ÄÚµå ¼³°è¿¡ µû¶ó¼­ µ¥ÀÌÅÍº£ÀÌ½º ±¸Á¶°¡ ¸¸µé¾îÁö´Â ¹æ¹ý
+// ï¿½Úµï¿½ ï¿½ï¿½ï¿½è¿¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Íºï¿½ï¿½Ì½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 // auto-migration
 
 @Data
 @Entity
 public class Todo {
 
-	// @Id -> Å×ÀÌºíÀÇ PK(À¯ÀÏ/´ëÇ¥ ÄÃ·³)
+	// @Id -> ï¿½ï¿½ï¿½Ìºï¿½ï¿½ï¿½ PK(ï¿½ï¿½ï¿½ï¿½/ï¿½ï¿½Ç¥ ï¿½Ã·ï¿½)
 	@Id
-	// @GeneratedValue -> ÇÊµå °ª »ý¼º ¹æ¹ý Á¤ÀÇ, IDENTITY´Â µ¥ÀÌÅÍº£ÀÌ½ºÀÇ ÀÚµ¿Áõ°¡°ªÀ» »ç¿ë
+	// @GeneratedValue -> ï¿½Êµï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, IDENTITYï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Íºï¿½ï¿½Ì½ï¿½ï¿½ï¿½ ï¿½Úµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	// ï¿½ï¿½ï¿½
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String memo;
