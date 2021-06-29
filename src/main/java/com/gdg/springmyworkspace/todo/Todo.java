@@ -1,36 +1,32 @@
 package com.gdg.springmyworkspace.todo;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 
 import lombok.Data;
 
-// @Entity = �����ͺ��̽��� ���̺�� ������(mapping)
-// ORM(Object Relational Mapping)
-// : ��ü�� ���̺��� �����Ѵ�.
+// Aggregation Root 객체
+// 집합 뿌리 객체
 
-// class�� ���̺��� pascal-case -> snake-case�� ����
-// Todo class -> todo table
-// StudentInfo class -> student_info table
-
-// �ʵ�� �÷��� camel-case -> snake-case�� ����
-// createdTime field -> created_time column
-
-// �ڵ� ���迡 ���� �����ͺ��̽� ������ ��������� ���
-// auto-migration
-
+// 예) Order 주문정보
+// 예) OrderDetail, OrderLineTime: 주문상세, 주문 제품목록
 @Data
 @Entity
 public class Todo {
 
-	// @Id -> ���̺��� PK(����/��ǥ �÷�)
 	@Id
-	// @GeneratedValue -> �ʵ� �� ���� ��� ����, IDENTITY�� �����ͺ��̽��� �ڵ���������
-	// ���
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String memo;
 	private Long createdTime;
+
+	@OneToMany
+	@JoinColumn(name = "todoId") // todoId(필드명), todo_id(컬럼명)
+	private List<TodoComment> comments;
 }
