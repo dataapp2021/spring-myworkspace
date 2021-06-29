@@ -2,7 +2,6 @@ package com.gdg.springmyworkspace.opendata.dust;
 
 import java.util.List;
 
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
@@ -22,9 +21,9 @@ public class DustHourlyController {
 	// @Cacheable 리턴 객체를 캐시함
 	// cacheNames: 캐시할 객체의 명칭(임의로 정함)
 	// key: 캐시할 객체의 key
-	@Cacheable(cacheNames = "dust-hourly", key = "0")
+//	@Cacheable(cacheNames = "dust-hourly", key = "0")
 	@RequestMapping(value = "/opendata/dust/hourly", method = RequestMethod.GET)
-	public List<DustHourly> getListByDataType() {
+	public List<DustHourly> getListOrderByDataTime() {
 		Order[] orders = { new Order(Sort.Direction.DESC, "dataTime"), new Order(Sort.Direction.ASC, "itemCode") };
 
 		// �ֱ� 12�ð��� �����͸� ��ȸ(pm10, pm2.5)

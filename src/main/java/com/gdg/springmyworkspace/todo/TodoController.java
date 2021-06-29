@@ -48,7 +48,6 @@ public class TodoController {
 
 	@PostMapping(value = "/todos")
 	public Todo addTodo(@RequestBody Todo todo, HttpServletResponse res) {
-
 		if (todo.getMemo() == null || todo.getMemo().equals("")) {
 			res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			return null;
