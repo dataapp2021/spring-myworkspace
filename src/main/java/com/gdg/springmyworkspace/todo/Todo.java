@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Data;
 
 // Aggregation Root 객체
@@ -26,7 +28,14 @@ public class Todo {
 	private String memo;
 	private Long createdTime;
 
+	// JSON 으로 변환할 때 보여주지 않음.
+	@JsonIgnore
+	// OneToMany(Order-OrderDetail), OneToOne(User-Profile)
+	// EAGER: 상위객체 읽을 때 하위 객체 같이 읽음
+	// LAZY: 하위객체를 사용할 때 하위 객체를 읽어옴. 기본 페치전략
+//	@OneToMany(fetch = FetchType.LAZY)
 	@OneToMany
+	// ManyToMany(JoinColumn 쓰면 안 됨)
 	@JoinColumn(name = "todoId") // todoId(필드명), todo_id(컬럼명)
 	private List<TodoComment> comments;
 }
